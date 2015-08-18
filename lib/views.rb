@@ -77,6 +77,7 @@ module Sinatra
           return error("Badge not found")
         end
         @badge = Badge.first(:nonce => params['user'])
+        @badge_placement_config = @badge && @badge.badge_placement_config
         if @badge
           @user_config = UserConfig.first(:user_id => @badge.user_id, :domain_id => @badge.domain_id)
           # TODO: Canvas needs a reliable way to get global user ids
