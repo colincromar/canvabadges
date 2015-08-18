@@ -73,8 +73,10 @@ module Sinatra
       app.get "/badges/criteria/:id/:nonce" do
         org_check
         @badge_config = BadgeConfig.first(:id => params['id'], :nonce => params['nonce'])
-        if !@badge_config || !@badge_config.public
+        if !@badge_config 
           return error("Badge not found")
+        elsif !@badge_config.public
+          return error("This badge description is private")
         end
         @badge = Badge.first(:nonce => params['user'])
         @badge_placement_config = @badge && @badge.badge_placement_config
