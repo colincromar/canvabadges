@@ -1,6 +1,14 @@
 <h2><img src="<%= @org.settings['image'] || "/organizations/default.png" %>" alt="" style="max-height: 90px;"/> <%= @org.settings['name'] %> <%= "Badges" if @stats_org %></h2>
 <div class="row">
   <span class="span6">
+    <% if @org.default? %>
+      <p>NOTE: Canvabadges is not actively being maintained. There aren't really a lot of good 
+        alternatives so I've kept the site up and it still works for the most part, but
+        I can't seem to find anyone who wants to take ownership, and I've moved on to other projects.
+        Feel free to tweet at me if you have questions, but no guarantees that I'll be able to help
+        with them. Also let me know if you're interested in owning the project :-).
+      </p>
+    <% end %>
     <p>
       <%= @org.settings['name'] %> let you award badges to students in courses based on their total
       grade in the course and their completion of course modules. You can also put

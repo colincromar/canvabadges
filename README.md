@@ -1,5 +1,9 @@
 Badges
 ---------------------------
+NOTE: This project (as you can probably tell from the commit dates) is
+not being actively maintained. Please let me know if you're interested
+in taking ownership.
+
 This is an LTI-enabled service that allows you to award badges
 (Mozilla Open Badges, specifically) to students in a course
 based on their accomplishments in the course. Currently this
