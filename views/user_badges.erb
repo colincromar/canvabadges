@@ -1,3 +1,13 @@
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+<div class="alert alert-warning alert-dismissible" role="alert">
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+  <p>We’re excited to announce that we’ll be starting the retirement process for Canvabadges the week of April 30th and migrating all existing users over to Badgr.</p>
+  <p>Badgr is free to use and offers a number of compelling features including a built-in leaderboard. The Badgr Team will be offering a webinar on the transition as well as a transition guide. All existing Canvabadges will automatically appear in Badgr as part of the transition. Canvabadges will be shutdown, with access to non-migrated data unrecoverably lost, on December 31st 2018.</p>
+  <p>Please contact your CSM if you have any questions about the transition.</p>
+</div>
+
 <% if @for_current_user && @domain %>
   <h2>Your Badges at <%= @domain.name %></h2>
 <% elsif @user && @domain %>

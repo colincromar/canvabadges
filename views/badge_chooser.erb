@@ -1,3 +1,13 @@
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+<div class="alert alert-warning alert-dismissible" role="alert">
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+  <p>We’re excited to announce that we’ll be starting the retirement process for Canvabadges the week of April 30th and migrating all existing users over to Badgr.</p>
+  <p>Badgr is free to use and offers a number of compelling features including a built-in leaderboard. The Badgr Team will be offering a webinar on the transition as well as a transition guide. All existing Canvabadges will automatically appear in Badgr as part of the transition. Canvabadges will be shutdown, with access to non-migrated data unrecoverably lost, on December 31st 2018.</p>
+  <p>Please contact your CSM if you have any questions about the transition.</p>
+</div>
+
 <h2><img src="<%= @org.settings['image'] || "/organizations/default.png" %>" alt=""/> Select a Badge to Embed</h2>
 <p style="margin-top: -35px; padding-left: 95px;">Or create a new one. (<a href="https://www.youtube.com/watch?v=I9ZJdh6_jLE#t=96" target="_blank">learn more</a>)</p>
 
@@ -17,7 +27,7 @@
       <% end %>
       <div style='clear: left;'></div>
     </div>
-  <% end %>  
+  <% end %>
   <% code = Digest::MD5.hexdigest(Time.now.to_i.to_s + rand.to_s) %>
   <div class="badge_config select_badge_config" data-proposed_id="list" style="cursor: pointer;">
     <img src='https://cdn3.iconfinder.com/data/icons/other-icons/48/list-128.png' style='float: left; margin-right: 10px; height: 50px; width: 50px; padding: 5px 24px' class='thumbnail'/>
