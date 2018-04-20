@@ -5,11 +5,11 @@ module Sinatra
   module Auth
     def self.registered(app)
       app.helpers Auth::Helpers
-      
+
       app.post "/badge_check" do
         error("This is an old launch. You need to re-configure your LTI settings")
       end
-      
+
       # LTI tool launch, makes sure we're oauth-good and then redirects to the magic page
       app.post "/placement_launch" do
         get_org
@@ -23,7 +23,7 @@ module Sinatra
         if host && params['launch_presentation_return_url'] && params['launch_presentation_return_url'].match(Regexp.new(host.sub(/\.instructure\.com/, ".(test|beta).instructure.com")))
           host = params['launch_presentation_return_url'].split(/\//)[2]
         end
-        
+
         host ||= params['tool_consumer_instance_guid'].split(/\./)[1..-1].join(".") if params['tool_consumer_instance_guid'] && params['tool_consumer_instance_guid'].match(/\./)
         if !host
           halt 400, error("This app appears to have been misconfigured, please contact your instructor or administrator. App should receive custom_canvas_api_domain parameter but isn't.")
@@ -49,7 +49,7 @@ module Sinatra
             bc.organization_id = tool_config.organization_id if !bc.id
             bc.organization_id ||= @org.id
             bc.settings ||= {}
-            bc.settings['course_url'] = "#{BadgeHelper.protocol}://" + host + "/courses/" + params['custom_canvas_course_id']
+            bc.settings['course_url'] = "https://" + host + "/courses/" + params['custom_canvas_course_id']
             bc.settings['prior_resource_link_id'] = params['custom_prior_resource_link_id'] if params['custom_prior_resource_link_id']
             bc.settings['pending'] = true if !bc.id
 
@@ -79,7 +79,7 @@ module Sinatra
             session["launch_badge_placement_config_id"] = bc.id
             @bc = bc
           end
-          
+
           user_id = params['custom_canvas_user_id']
           user_config = UserConfig.first(:user_id => user_id, :domain_id => domain.id)
           session["user_id"] = user_id
@@ -88,7 +88,7 @@ module Sinatra
           session["launch_course_id"] = params['custom_canvas_course_id']
           session["permission_for_#{params['custom_canvas_course_id']}"] = 'view'
           session['email'] = params['lis_person_contact_email_primary']
-          
+
           # TODO: something akin to this parameter needs to be sent in order to
           # tell the difference between Canvas Cloud and Canvas CV instances.
           # Otherwise I can't tell the difference between global_user_id 5 from
@@ -117,16 +117,16 @@ module Sinatra
           return error("Invalid tool launch - invalid parameters")
         end
       end
-  
+
       app.get "/oauth_success" do
         get_org
         if !session['domain_id'] || !session['user_id'] || !session['source_id']
           halt 400, erb(:session_lost)
         end
         domain = Domain.first(:id => session['domain_id'])
-        return_url = "#{protocol}://#{request.env['badges.original_domain']}/oauth_success"
+        return_url = "https://#{request.env['badges.original_domain']}/oauth_success"
         code = params['code']
-        url = "#{protocol}://#{domain.host}/login/oauth2/token"
+        url = "https://#{domain.host}/login/oauth2/token"
         secure_connection = !@org.settings['insecure']
         response = Typhoeus.post(url, body: {
           :client_id => oauth_config.value,
@@ -134,12 +134,12 @@ module Sinatra
           :client_secret => oauth_config.shared_secret,
           :redirect_uri => CGI.escape(return_url)
         }, ssl_verifypeer: secure_connection)
-        
+
         if response.code == 0
           return error("Error authenticating user, please contact the system admin")
         end
         json = JSON.parse(response.body) rescue nil
-        
+
         if json && json['access_token']
           user_config = UserConfig.first(:user_id => session['user_id'], :domain_id => domain.id)
           user_config ||= UserConfig.new(:user_id => session['user_id'], :domain_id => domain.id)
@@ -148,7 +148,7 @@ module Sinatra
           user_config.image = session['user_image']
           user_config.global_user_id = session['source_id'] + "_" + json['user']['id'].to_s
           user_config.email = session['email']
-          
+
           user_config.save
           params_stash = session['params_stash']
           launch_badge_placement_config_id = session['launch_badge_placement_config_id']
@@ -171,7 +171,7 @@ module Sinatra
           return error("Error retrieving access token")
         end
       end
-      
+
       app.get "/login" do
         get_org
         request_token = consumer.get_request_token(:oauth_callback => "#{request.scheme}://#{request.env['badges.domain']}/login_success")
@@ -183,7 +183,7 @@ module Sinatra
         end
         redirect to("https://api.twitter.com/oauth/authenticate?oauth_token=#{request_token.token}")
       end
-      
+
       app.get "/login_success" do
         get_org
         verifier = params[:oauth_verifier]
@@ -196,20 +196,20 @@ module Sinatra
         )
         access_token = request_token.get_access_token(:oauth_verifier => verifier)
         screen_name = access_token.params['screen_name']
-        
+
         if !screen_name
           return "Authorization failed"
         end
-        
-        
+
+
         @org = Organization.first(:host => request.env['badges.original_domain'], :order => :id)
         @org ||= Organization.first(:old_host => request.env['badges.original_domain'], :order => :id)
         @conf = ExternalConfig.generate(screen_name)
-        
+
         hash = @conf.confirmation
         redirect to("/token?id=#{@conf.id}&confirmation=#{hash}")
       end
-      
+
       app.get "/session_fix" do
         get_org
         session['has_session'] = true
@@ -226,11 +226,11 @@ module Sinatra
           :signature_method => "HMAC-SHA1"
         })
       end
-      
+
       def hash_slice(hash, *keys)
         keys.each_with_object({}){|k, h| h[k] = hash[k]}
       end
-      
+
       def launch_redirect(config_id, domain_id, user_id, params)
         params ||= {}
         if params['custom_show_all']
@@ -247,12 +247,12 @@ module Sinatra
           redirect to("#{request.env['badges.path_prefix']}/badges/check/#{config_id}/#{user_id}")
         end
       end
-      
+
       def twitter_config
         @@twitter_config ||= ExternalConfig.first(:config_type => 'twitter_for_login')
       end
     end
   end
-  
+
   register OAuth
 end

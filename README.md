@@ -42,8 +42,19 @@ ExternalConfig.create(:config_type => 'twitter_for_login', :value => "<twitter c
 #  set twitter_login to false if you only want LTI credentials created by hand
 #  (twitter_login lets anyone generate an LTI key and secret with a twitter login)
 d = Domain.create(:host => "badgemagic.yourdomain.com", :name => "Name Of Your Badging Thing")
+o = Organization.create(:host => "ccromar.instructure.com", :settings => {
+  'name' => "Name Of Your Badging Thing",
+  'description' => "I just really like badging!",
+  'twitter_login' => false,
+  'url' => 'https://ccromar.instructure.com',
+  'image' => 'http://badgemagic.com/images/90x90.png',
+  'email' => 'admin_or_support@badgemagic.com'
+})
+
+
+
 o = Organization.create(:host => "badgemagic.yourdomain.com", :settings => {
-  'name' => "Name Of Your Badging Thing", 
+  'name' => "Name Of Your Badging Thing",
   'description' => "I just really like badging!",
   'twitter_login' => true,
   'url' => 'http://badgemagic.com',
@@ -70,7 +81,7 @@ Note that in a production environment you'll also need to set the SESSION_KEY en
 
 ## Migrations
 
-If you've been running Canvabadges for a little while, we've made a minor 
+If you've been running Canvabadges for a little while, we've made a minor
 change that will affect you. We have separated the badge configuration
 settings from badge completion settings, making it possible for two courses
 to use the same badge. This adds a lot of flexibility and will fix an
@@ -92,7 +103,7 @@ set up already.
 Canvabadges by default only talks to one instance of Canvas. It's possible for it
 to talk to multiple instances, it just takes an additional step.
 
-Multitenancy is set at the organization level. An organization can have multiple 
+Multitenancy is set at the organization level. An organization can have multiple
 domains (each has a corresponding object). On the organization object if you make
 the following change:
 
@@ -106,7 +117,7 @@ org.save
 
 Then the organzation will be set up to use its own configuration. Now we need to
 add a Canvas developer key. Ask the Canvas admin -- if that's you, you can create
-a new developer key by logging in as a site admin and going to 
+a new developer key by logging in as a site admin and going to
 `https://<yourcanvas>/developer_keys` and creating one. You can use the
 image at `https://<canvabadges>/logo.png` as the developer key image. For
 the redirect URI enter `https://<canvabadges>/oauth_success`. Then in
@@ -145,8 +156,8 @@ all I need is:
 
   Once you're ready just ping me (@whitmer).
 
-3. Run your own instance of Canvabadges. It's a Sinatra app and not too complicated, you 
-should hopefully be able to get it up pretty easily. Then you can put it on whatever 
+3. Run your own instance of Canvabadges. It's a Sinatra app and not too complicated, you
+should hopefully be able to get it up pretty easily. Then you can put it on whatever
 domain/subdomain you like and you never have to tell me any of your secrets.
 
 
