@@ -1,62 +1,76 @@
+<div class='row'>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+  <div class="alert alert-warning alert-dismissible" role="alert">
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+    <p>We’re excited to announce that we’ll be starting the retirement process for Canvabadges the week of April 30th and migrating all existing users over to Badgr.</p>
+    <p>Badgr is free to use and offers a number of compelling features including a built-in leaderboard. The Badgr Team will be offering a webinar on the transition as well as a transition guide. All existing Canvabadges will automatically appear in Badgr as part of the transition. Canvabadges will be shutdown, with access to non-migrated data unrecoverably lost, on December 31st 2018.</p>
+    <p>Please contact your CSM if you have any questions about the transition.</p>
+  </div>
+</div>
+
 <h2><img src="<%= @org.settings['image'] || "/organizations/default.png" %>" alt="" style="max-height: 90px;"/> <%= @org.settings['name'] %> <%= "Badges" if @stats_org %></h2>
 <div class="row">
-  <span class="span6">
-    <% if @org.default? %>
-      <p>NOTE: Canvabadges is not actively being maintained, I've unfortunately had to move on
-        to <a href="https://www.mycoughdrop.com">other projects</a>.
-        Feel free to tweet at me if you have questions, but no guarantees that I'll be able to help
-        with them. Also let me know if you're interested in owning the project :-). If you're looking
-        for an alternative, I'd suggest <a href="http://info.badgr.io/">Badgr</a> or possibly 
-        <a href="https://credly.com/">Credly</a> depending on your use case.
-      </p>
-    <% end %>
-    <p>
-      <%= @org.settings['name'] %> let you award badges to students in courses based on their total
-      grade in the course and their completion of course modules. You can also put
-      a manual approval step on as well that requires your final sign-off before they
-      receive the badge.
-    </p>
-    <p>
-      Put it all together and you've got some lightweight course credentials!
-      Badges can be added to a <a href="http://openbadges.org/">Mozilla Backpack</a>,
-      or you can drop <a href="/canvas_profile_badges.js<%= "?path_prefix=#{request.env['badges.path_prefix']}" if request.env['badges.path_prefix'].length > 0 %>">this javascript file</a> in your
-      global Canvas scripts to let users add them to their Canvas 
-      profiles.
-    </p>
-    <p>
-      NOTE: Students do not earn badges automatically, they must launch the Canvabadges link in modules
-      after completing criteria in order to be awarded the badge.
-    </p>
-    <ol id="instructions">
-      <% if @org.settings['twitter_login'] %>
-        <li>
-          <a href="/login" class="btn btn-primary btn-large">login using the Twitters</a> to get a key and secret
-        </li>
-      <% else %>
-        <li>
-          Access to badges from this organization are managed internally.
-          <a href="mailto:<%= @org.settings['email'] %>">Contact the organization</a> for help in getting a key and secret if you believe you should be able to generate badges on behalf of the organization.
-        </li>
+  <div class='stuff-container' style="display: flex; justify_content: space-between;" >
+    <div class='left-panel'>
+      <% if @org.default? %>
+        <p>NOTE: Canvabadges is not actively being maintained, I've unfortunately had to move on
+          to <a href="https://www.mycoughdrop.com">other projects</a>.
+          Feel free to tweet at me if you have questions, but no guarantees that I'll be able to help
+          with them. Also let me know if you're interested in owning the project :-). If you're looking
+          for an alternative, I'd suggest <a href="http://info.badgr.io/">Badgr</a> or possibly
+          <a href="https://credly.com/">Credly</a> depending on your use case.
+        </p>
       <% end %>
-      <li>
-        <a href="<%= request.env['badges.path_prefix'] %>/canvabadges.xml">Copy this XML link</a> and pick "By URL" as 
-        the configuration type to add as a new external tool in Canvas
-      </li>
-      <li>
-        If you're an admin, add <a href="/canvas_profile_badges.js<%= "?path_prefix=#{request.env['badges.path_prefix']}" if request.env['badges.path_prefix'].length > 0 %>">this javascript file</a>
-        to your global Canvas JavaScript to make badges appear on user profiles.
-      </li>
-    </ol>
-  </span>
-  <span class="span6">
-    <iframe width="420" height="315" src="https://www.youtube.com/embed/I9ZJdh6_jLE?rel=0" frameborder="0" allowfullscreen></iframe>
-  </span>
+      <p>
+        <%= @org.settings['name'] %> let you award badges to students in courses based on their total
+        grade in the course and their completion of course modules. You can also put
+        a manual approval step on as well that requires your final sign-off before they
+        receive the badge.
+      </p>
+      <p>
+        Put it all together and you've got some lightweight course credentials!
+        Badges can be added to a <a href="http://openbadges.org/">Mozilla Backpack</a>,
+        or you can drop <a href="/canvas_profile_badges.js<%= "?path_prefix=#{request.env['badges.path_prefix']}" if request.env['badges.path_prefix'].length > 0 %>">this javascript file</a> in your
+        global Canvas scripts to let users add them to their Canvas
+        profiles.
+      </p>
+      <p>
+        NOTE: Students do not earn badges automatically, they must launch the Canvabadges link in modules
+        after completing criteria in order to be awarded the badge.
+      </p>
+      <ol id="instructions">
+        <% if @org.settings['twitter_login'] %>
+          <li>
+            <a href="/login" class="btn btn-primary btn-large">login using the Twitters</a> to get a key and secret
+          </li>
+        <% else %>
+          <li>
+            Access to badges from this organization are managed internally.
+            <a href="mailto:<%= @org.settings['email'] %>">Contact the organization</a> for help in getting a key and secret if you believe you should be able to generate badges on behalf of the organization.
+          </li>
+        <% end %>
+        <li>
+          <a href="<%= request.env['badges.path_prefix'] %>/canvabadges.xml">Copy this XML link</a> and pick "By URL" as
+          the configuration type to add as a new external tool in Canvas
+        </li>
+        <li>
+          If you're an admin, add <a href="/canvas_profile_badges.js<%= "?path_prefix=#{request.env['badges.path_prefix']}" if request.env['badges.path_prefix'].length > 0 %>">this javascript file</a>
+          to your global Canvas JavaScript to make badges appear on user profiles.
+        </li>
+      </ol>
+    </div>
+    <div class='right-panel' style="padding-left: 10px;">
+      <iframe width="420" height="315" src="https://www.youtube.com/embed/I9ZJdh6_jLE?rel=0" frameborder="0" allowfullscreen></iframe>
+    </div>
+  </div>
 </div>
   <hr/>
   <% if @public_badge_placements.length > 0 %>
     <h2>Some Badges in Public Canvas Courses</h2>
     <p>
-      <%= comma @stats['badges'] %> badges earned so far - 
+      <%= comma @stats['badges'] %> badges earned so far -
       <a href="<%= request.env['badges.path_prefix'] %>/badges/public/awarded<%= "?this_org_only=1" if @stats_org %>">see some recipients</a>
     </p>
     <% 3.times do |i| %>
@@ -86,7 +100,7 @@
   <% end %>
   <% if @org.default? %>
     <p>
-      Lots of schools will probably want to host their 
+      Lots of schools will probably want to host their
       own badge issuing server, so the domain matches their school
       (i.e. badges.utah.edu instead of canvabadges.herokuapp.com).
       Good news! You can now do that with Canvabadges! Just
@@ -97,7 +111,7 @@
         <a href="<%= BadgeHelper.issuer['owner_url'] %>">contact
         the site's owner</a> about getting a custom domain configured.
       <% end %>
-      Or you can also run 
+      Or you can also run
       <a href="https://github.com/whitmer/canvabadges">the code</a>
       yourself.
     </p>
