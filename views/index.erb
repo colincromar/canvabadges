@@ -14,17 +14,8 @@
 <div class="row">
   <div class='stuff-container' style="display: flex; justify_content: space-between;" >
     <div class='left-panel'>
-      <% if @org.default? %>
-        <p>NOTE: Canvabadges is not actively being maintained, I've unfortunately had to move on
-          to <a href="https://www.mycoughdrop.com">other projects</a>.
-          Feel free to tweet at me if you have questions, but no guarantees that I'll be able to help
-          with them. Also let me know if you're interested in owning the project :-). If you're looking
-          for an alternative, I'd suggest <a href="http://info.badgr.io/">Badgr</a> or possibly
-          <a href="https://credly.com/">Credly</a> depending on your use case.
-        </p>
-      <% end %>
       <p>
-        <%= @org.settings['name'] %> let you award badges to students in courses based on their total
+        <%= @org.settings['name'] %> lets you award badges to students in courses based on their total
         grade in the course and their completion of course modules. You can also put
         a manual approval step on as well that requires your final sign-off before they
         receive the badge.
